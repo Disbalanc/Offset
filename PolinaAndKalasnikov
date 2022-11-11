@@ -26,13 +26,20 @@ do
             {
                 file.SetLength(0);
                 file2.SetLength(0);
-                Console.WriteLine("\nУкажите размер матрицы: ");
+                file.SetLength(0);
+                file2.SetLength(0);
+                Console.WriteLine("\nУкажите кол-во строк матрицы: ");
                 if (!int.TryParse(Console.ReadLine(), out int arraySize))
                 {
                     Console.WriteLine("\nОшибка! не-то что-то ввели");
                 }
-                int[,] array = new int[arraySize, arraySize];
-                string[] array2 = new string[arraySize];
+                Console.WriteLine("\nУкажите кол-во столбцы матрицы: ");
+                if (!int.TryParse(Console.ReadLine(), out int arraySize2))
+                {
+                    Console.WriteLine("\nОшибка! не-то что-то ввели");
+                }
+                int[,] array = new int[arraySize, arraySize2];
+                string[] array2 = new string[100];
 
                 for (int i = 0; i < array.GetLength(0); i++)
                 {
