@@ -1,0 +1,94 @@
+do
+{
+    int count = System.IO.File.ReadAllLines("d:\\Matrica.txt").Length;
+    FileStream file = new FileStream("d:\\Matrica.txt", FileMode.OpenOrCreate);
+    StreamReader reader = new StreamReader(file);
+    StreamWriter writer = new StreamWriter(file);
+
+
+    FileStream file2 = new FileStream("d:\\Stolbsi.txt", FileMode.OpenOrCreate);
+    StreamReader reader2 = new StreamReader(file2);
+    StreamWriter writer2 = new StreamWriter(file2);
+
+    Random rnd = new Random();
+
+    int sum = 0;
+
+    Console.WriteLine("1 - Новая генерация\n2 - Старая генерация");
+    if (!int.TryParse(Console.ReadLine(), out int gen) || gen > 2 || gen < 1)
+    {
+        Console.WriteLine("\nОшибка! не-то что-то ввели");
+    }
+
+    switch (gen)
+    {
+        case 1:
+            {
+                file.SetLength(0);
+                file2.SetLength(0);
+                Console.WriteLine("\nУкажите размер матрицы: ");
+                if (!int.TryParse(Console.ReadLine(), out int arraySize))
+                {
+                    Console.WriteLine("\nОшибка! не-то что-то ввели");
+                }
+                int[,] array = new int[arraySize, arraySize];
+                string[] array2 = new string[arraySize];
+
+                for (int i = 0; i < array.GetLength(0); i++)
+                {
+                    for (int j = 0; j < array.GetLength(1); j++)
+                    {
+                        array[i, j] = rnd.Next(-10, 10);
+                        writer.Write(array[i, j] + " ");
+                    }
+                    writer.WriteLine();
+                }
+
+                for (int i = 0; i < array.GetLength(1); i++)
+                {
+                    for (int j = 0; j < array.GetLength(0); j++)
+                    {
+                        sum += array[i, j];
+                    }
+                    writer2.WriteLine($"Cумма {i} cтобца: {sum}");
+                }
+                
+                break;
+            }
+        case 2:
+            {
+                file2.SetLength(0);
+                int[,] array = new int[count, count];
+                string arrayLines;
+
+                for (int i = 0; i < array.GetLength(0); i++)
+                {
+                    arrayLines = reader.ReadLine();
+                    string[] array2 = arrayLines.Split(" ");
+                    for (int j = 0; j < array.GetLength(1); j++)
+                    {
+                        array[i, j] = Convert.ToInt32(array2[j]);
+                    }
+                }
+
+                for (int j = 0; j < array.GetLength(1); j++)
+                {
+                    for (int i = 0; i < array.GetLength(0); i++)
+                    {
+                        sum += array[i, j];
+                    }
+                    writer2.WriteLine($"Cумма {j} cтобца: {sum}");
+                    sum = 0;
+                }
+
+                break;
+            }
+    }
+
+    writer2.Close();
+    writer2.Close();
+    writer.Close();
+    reader.Close();
+
+    Console.WriteLine("\nЗапуск - ENTER;\nВыход из программы - ESC");
+} while (Console.ReadKey().Key != ConsoleKey.Escape);
